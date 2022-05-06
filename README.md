@@ -1,0 +1,1 @@
+# regulatory_resistance
