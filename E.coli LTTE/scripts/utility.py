@@ -389,14 +389,14 @@ def return_generation_grouped_dataframe_with_one_sided_p(data, column_name: str,
     score_median_reset_index['group_gen'] = score_median_reset_index['generation_number'].apply(lambda x: cut_off_string1 if x <= gen_cut_off else cut_off_string2)
     
     mut_gen = score_median_reset_index[score_median_reset_index.loc[:, "mutator"]=="mutator"]
-    p_mut = man_whiteney(mut_gen[mut_gen.loc[:, "group_gen"]==">30K"][column_name], 
-                                     mut_gen[mut_gen.loc[:, "group_gen"]=="<=30K"][column_name])
-    print("The one sided man_whiteney p value within the mutator groups for data points <=30K and >30K generation w.r.t " + column_name + " score is: ", str(p_mut))
+    p_mut = man_whiteney(mut_gen[mut_gen.loc[:, "group_gen"]==cut_off_string2][column_name], 
+                                     mut_gen[mut_gen.loc[:, "group_gen"]==cut_off_string1][column_name])
+    print("The one sided man_whiteney p value within the mutator groups for data points " + cut_off_string2 +" and " +  cut_off_string1 +" generation w.r.t " + column_name + " score is: ", str(p_mut))
     
     non_mut_gen = score_median_reset_index[score_median_reset_index.loc[:, "mutator"]=="non mutator"]
-    p_non_mut = man_whiteney(non_mut_gen[non_mut_gen.loc[:, "group_gen"]==">30K"][column_name], 
-                                     non_mut_gen[non_mut_gen.loc[:, "group_gen"]=="<=30K"][column_name])
-    print("The one sided man_whiteney p value within the non mutator groups for data points <=30K and >30K w.r.t  " + column_name + " score is: ", str(p_non_mut))
+    p_non_mut = man_whiteney(non_mut_gen[non_mut_gen.loc[:, "group_gen"]==cut_off_string2][column_name], 
+                                     non_mut_gen[non_mut_gen.loc[:, "group_gen"]==cut_off_string1][column_name])
+    print("The one sided man_whiteney p value within the non mutator groups for data points " + cut_off_string2 + " and " +  cut_off_string1 +" w.r.t  " + column_name + " score is: ", str(p_non_mut))
         
         
     
