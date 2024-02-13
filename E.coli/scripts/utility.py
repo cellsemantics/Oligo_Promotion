@@ -155,6 +155,13 @@ def return_quantile_wise_allele_count(lst_quantile_dataframe, column_name, ignor
     return df_tmp_full
 
 
+
+
+
+
+
+
+
 """Plot three subplots for the column name vs generation number for mutator, non mutator amd all"""
 def return_mutator_non_mutator_column_name_wise_graph_together(data, mutator_list, non_mutator_list, column_name, fontsize=10):
     
@@ -181,8 +188,10 @@ def return_mutator_non_mutator_column_name_wise_graph_together(data, mutator_lis
     
     import matplotlib.pyplot as plt
     from matplotlib.ticker import FuncFormatter
+    from scipy.stats import spearmanr
     import seaborn as sns
     data = data.copy();
+    offset = 0
 
     df_non_mutator_full_mutation_data = data[data['label'].isin(non_mutator_list)]
     df_mutator_full_mutation_data = data[data['label'].isin(mutator_list)]
@@ -192,12 +201,30 @@ def return_mutator_non_mutator_column_name_wise_graph_together(data, mutator_lis
     sns.lineplot(data = df_non_mutator_full_mutation_data, x = "generation_number", y=column_name, color="green", lw = 0.25, estimator ="median", ax = ax[1]);
     sns.lineplot(data = data, x = "generation_number", y=column_name, color="blue", lw = 0.25, estimator ="median", ax = ax[2]);
 
+    mutator_spearman_corr = "{:.3e}".format(spearmanr(df_mutator_full_mutation_data["generation_number"], df_mutator_full_mutation_data[column_name])[0])
+    mutator_spearman_p = "{:.3e}".format(spearmanr(df_mutator_full_mutation_data["generation_number"], df_mutator_full_mutation_data[column_name])[1])
+    ax[0].text((max(ax[0].get_xlim()) -100* offset), (max(ax[0].get_ylim()) - offset), "Corr:" + str(mutator_spearman_corr) + "| p- value: " + str(mutator_spearman_p), fontsize=3, color='black', ha='right', va='top')
 
+    print(spearmanr(df_mutator_full_mutation_data["generation_number"], df_mutator_full_mutation_data[column_name]))
+    # formatted_corr_all = "{:.2e}".format(df_non_mutator_full_mutation_data["generation_number"].corr(df_non_mutator_full_mutation_data["column_name"]))
+    non_mutator_spearman_corr = "{:.3e}".format(spearmanr(df_non_mutator_full_mutation_data["generation_number"], df_non_mutator_full_mutation_data[column_name])[0])
+    non_mutator_spearman_p = "{:.3e}".format(spearmanr(df_non_mutator_full_mutation_data["generation_number"], df_non_mutator_full_mutation_data[column_name])[1])
+    ax[1].text((max(ax[1].get_xlim()) -100* offset), (max(ax[1].get_ylim()) - offset), "Corr:" + str(non_mutator_spearman_corr) + "| p- value: " + str(non_mutator_spearman_p), fontsize=3, color='black', ha='right', va='top')
+    print(spearmanr(df_non_mutator_full_mutation_data["generation_number"], df_non_mutator_full_mutation_data[column_name]))
+
+    
+
+    all_spearman_corr = "{:.3e}".format(spearmanr(data["generation_number"], data[column_name])[0])
+    all_spearman_p = "{:.3e}".format(spearmanr(data["generation_number"], data[column_name])[1])
+    ax[2].text((max(ax[2].get_xlim()) -100* offset), (max(ax[2].get_ylim()) - offset), "Corr:" + str(all_spearman_corr) + "| p- value: " + str(all_spearman_p), fontsize=3, color='black', ha='right', va='top')
 
     # ax[0].set_title(column_name + " vs generation for mutator", fontsize=fontsize);
     # ax[1].set_title(column_name + " vs generation for non mutator", fontsize=fontsize);
     # ax[2].set_title(column_name + " vs generation for all population", fontsize=fontsize);
-    
+    # print(all_spearman_corr, all_spearman_p)
+
+    print(spearmanr(data["generation_number"], data[column_name]))
+
     # Apply the custom tick formatter
     formatter = FuncFormatter(format_ticks);
     ax[2].xaxis.set_major_formatter(formatter);
@@ -472,6 +499,19 @@ def return_median_data_gen_wise(data:pd.DataFrame(), x_column: str, y_column: st
 
 
 
+
+def spearmanr(x1, x2):
+
+    from scipy.stats import spearmanr
+
+    corr, p_value = spearmanr(x1, x2)
+
+    spearman_corr = "{:.3e}".format(corr)
+    spearman_p = "{:.3e}".format(p_value)
+
+    return spearman_corr, spearman_p
+
+
 def plot_scatter(data:pd.DataFrame(), mutator_list, non_mutator_list, x_column, y_column, ax, logy=True):
     
     """
@@ -522,14 +562,25 @@ def plot_scatter(data:pd.DataFrame(), mutator_list, non_mutator_list, x_column, 
 
     offset = 0.01
 
-    formatted_correlation_mutator = "{:.2e}".format(mutator_population_combined_median[x_updated].corr(mutator_population_combined_median[y_updated]))
-    ax[0].text((max(ax[0].get_xlim()) - 100*offset), (max(ax[0].get_ylim()) - offset), "Corr:" + formatted_correlation_mutator, fontsize=5, color='red', ha='right', va='top')
 
-    formatted_correlation_non_mutator = "{:.2e}".format(non_mutator_population_combined_median[x_updated].corr(non_mutator_population_combined_median[y_updated]))
-    ax[1].text((max(ax[1].get_xlim()) - 100*offset), (max(ax[1].get_ylim()) - offset), "Corr:" + formatted_correlation_non_mutator, fontsize=5, color='red', ha='right', va='top')
+    mutator_spearman_corr, mutator_spearman_p = spearmanr(mutator_population_combined_median[x_updated], mutator_population_combined_median[y_updated])
+    non_mutator_spearman_corr, non_mutator_spearman_p = spearmanr(non_mutator_population_combined_median[x_updated], non_mutator_population_combined_median[y_updated])
+    combined_spearman_corr, combined_spearman_p = spearmanr(all_population_combined_median[x_updated], all_population_combined_median[y_updated])
 
-    formatted_corr_all = "{:.2e}".format(all_population_combined_median[x_updated].corr(all_population_combined_median[y_updated]))
-    ax[2].text((max(ax[2].get_xlim()) -100* offset), (max(ax[2].get_ylim()) - offset), "Corr:" + formatted_corr_all, fontsize=5, color='red', ha='right', va='top')
+    # print(mutator_spearman_corr, mutator_spearman_p )
+
+    ax[0].text((max(ax[0].get_xlim()) -100* offset), (max(ax[0].get_ylim()) - offset), "Corr:" + str(mutator_spearman_corr) + "| p- value: " + str(mutator_spearman_p), fontsize=3, color='red', ha='right', va='top')
+    ax[1].text((max(ax[1].get_xlim()) -100* offset), (max(ax[1].get_ylim()) - offset), "Corr:" + str(non_mutator_spearman_corr) + "| p- value: " + str(non_mutator_spearman_p), fontsize=3, color='red', ha='right', va='top')
+    ax[2].text((max(ax[2].get_xlim()) -100* offset), (max(ax[2].get_ylim()) - offset), "Corr:" + str(combined_spearman_corr) + "| p- value: " + str(combined_spearman_p), fontsize=3, color='red', ha='right', va='top')
+
+    # formatted_correlation_mutator = "{:.2e}".format(mutator_population_combined_median[x_updated].corr(mutator_population_combined_median[y_updated]))
+    # ax[0].text((max(ax[0].get_xlim()) - 100*offset), (max(ax[0].get_ylim()) - offset), "Corr:" + formatted_correlation_mutator, fontsize=5, color='red', ha='right', va='top')
+
+    # formatted_correlation_non_mutator = "{:.2e}".format(non_mutator_population_combined_median[x_updated].corr(non_mutator_population_combined_median[y_updated]))
+    # ax[1].text((max(ax[1].get_xlim()) - 100*offset), (max(ax[1].get_ylim()) - offset), "Corr:" + formatted_correlation_non_mutator, fontsize=5, color='red', ha='right', va='top')
+
+    # formatted_corr_all = "{:.2e}".format(all_population_combined_median[x_updated].corr(all_population_combined_median[y_updated]))
+    # ax[2].text((max(ax[2].get_xlim()) -100* offset), (max(ax[2].get_ylim()) - offset), "Corr:" + formatted_corr_all, fontsize=5, color='red', ha='right', va='top')
 
 
     ax[0].set_title("mutator", fontsize=5)
