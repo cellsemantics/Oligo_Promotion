@@ -29,7 +29,7 @@ def man_whiteney(group1, group2):
     """
 
     from scipy.stats import mannwhitneyu
-    statistic, p_value = mannwhitneyu(group1, group2, alternative='greater')
+    statistic, p_value = mannwhitneyu(group1, group2, alternative='greater', nan_policy = "omit")
     return p_value
 
 
@@ -390,6 +390,34 @@ def return_combined_fitness_esm_data(fitness_dataframe, esm_dataframe):
 
 
 
+def return_combined_fitness_ag_data(fitness_dataframe, ag_dataframe):
+
+    """
+    Combines fitness data and ag score data by calculating the median fitness and
+    median ag score for each generation. It then merges the dataframes based on the generation number.
+
+    Parameters:
+        fitness_dataframe (pd.DataFrame): DataFrame containing fitness data with columns 'Generation' and 'Fitness'.
+        ag_dataframe (pd.DataFrame): DataFrame containing AG score data with columns 'generation_number' and 'ag_score'.
+
+    Returns:
+        pd.DataFrame: Combined DataFrame with columns 'generation_number', 'median fitness', and 'median_ag_score'.
+    """
+
+    fitness_median_generation_wise = fitness_dataframe.groupby(["Generation"])["Fitness"].agg(['median', 'std'])
+    fitness_median_generation_wise = fitness_median_generation_wise.reset_index()
+    fitness_median_generation_wise.columns = ["generation_number", "median fitness", "std fitness"]
+
+    ag_median_generation_wise = ag_dataframe.groupby(["generation_number"])["AG"].agg(['median', 'std'])
+    ag_median_generation_wise = ag_median_generation_wise.reset_index()
+    ag_median_generation_wise.columns = ["generation_number", "median ag_score", "std ag_score"]
+
+    combined_fitness_ag = pd.merge(fitness_median_generation_wise, ag_median_generation_wise)
+
+    return combined_fitness_ag
+
+
+
 def return_generation_grouped_dataframe_with_one_sided_p(data, column_name: str, gen_cut_off:int, cut_off_string1:str, cut_off_string2:str):
 
     """
@@ -504,7 +532,7 @@ def spearmanr(x1, x2):
 
     from scipy.stats import spearmanr
 
-    corr, p_value = spearmanr(x1, x2)
+    corr, p_value = spearmanr(x1, x2, nan_policy = "omit")
 
     spearman_corr = "{:.3e}".format(corr)
     spearman_p = "{:.3e}".format(p_value)
