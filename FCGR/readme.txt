@@ -4,3 +4,5 @@
 
 3. individual fcgr density plot and heatmap.ipynb: This file contains the notebook for FCGR heatmap. This script use extracted file from all speceies FCGR in -log(x) scale truncated to four decimel.tar.xz as the metadata.
 
+4. ecoli real vs fake heatmap.ipynb: The notebook contain heatmap of original E.coli FCGR and fake E.coli FCGR
+
