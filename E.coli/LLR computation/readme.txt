@@ -22,5 +22,3 @@ Script1 steps:
 12) create a universal ID with seq_id and SNP column in the final data frame.
 13) Use this universal ID to merge the scores with the missense variants. 
 14) You have a final sheet with all variants and their ESM1b score.
-
-Script3 is for generating plots.
