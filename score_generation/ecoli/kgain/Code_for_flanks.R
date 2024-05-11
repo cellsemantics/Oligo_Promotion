@@ -1,0 +1,85 @@
+# Step 1 - Load library
+#Load library
+library(Biostrings)
+library(dplyr)
+library(readxl)
+library(writexl)
+
+#step 2 - Read fasta files & preprocess
+# File path to the FASTA file
+file_path <- "D:/wetlab/sequencing result of ecoli passage/result_complete_samples/GCF_000005845.2_ASM584v2_genomic.fna"
+# Read the file as a character vector
+fasta_lines <- readLines(file_path)
+# Remove the first line (header line)
+sequence_lines <- fasta_lines[-1]
+# Concatenate the sequence lines into a single string
+sequence <- paste(sequence_lines, collapse = "")
+# Print the resulting sequence
+print(sequence)
+
+#Step 3 - Read VCF files & preprocess it
+# Read the Excel file
+data <- read_excel("D:/wetlab/sequencing result of ecoli passage/result_complete_samples/Filtered_vcf.xlsx", sheet = "ALL_single_allele")
+#data <- read_excel("D:/wetlab/sequencing result of ecoli passage/result_complete_samples/unfiltered_vcf.xlsx", sheet = "All_single_allele_both")
+View(data)
+
+###############################################################################################
+
+# #Step 4 - process to obtain ref seq
+# # Specify the length of the flanking region
+flanking_length <- 10
+# For ref
+#Index the gene position as list
+snp_position <- data$POS
+# Create an empty vector to store the flanking regions
+flanking_regions <- vector("character", length = length(snp_position))
+# snp_position
+# Convert snp_position to numeric
+snp_position <- as.numeric(snp_position)
+# Convert flanking_length to numeric
+flanking_length <- as.numeric(flanking_length)
+snp_position
+# Iterate over SNP positions and extract the flanking regions
+for (i in seq_along(snp_position)) {
+  # Extract the flanking region from the reference sequence
+  start <- snp_position[i] - flanking_length
+  end <- snp_position[i] + flanking_length
+  flanking_region <- substring(sequence, start, end)
+  # Store the flanking region in the vector
+  flanking_regions[i] <- flanking_region
+}
+# Print the flanking regions
+print(flanking_regions)
+ref_seq<-as.data.frame(flanking_regions)
+View(ref_seq)
+
+########################################################################################
+
+# #Step 5 - process to obtain alt seq
+# Create an empty vector to store modified regions
+alternate_regions <- vector("character", length = length(snp_position))
+# Convert flanking_length to numeric
+alternate_regions <- as.numeric(alternate_regions)
+# Iterate over SNP positions and substitute the alternate allele
+for (i in seq_along(snp_position)) {
+  # Extract the flanking region from the reference sequence
+  start <- snp_position[i] - flanking_length
+  end <- snp_position[i] + flanking_length
+  flanking_region <- substring(sequence, start, end)
+  # Get the alternate allele sequence for the current SNP
+  alternate_seq <- data$ALT[i]
+  # Substitute the alternate allele in the flanking region
+  modified_region <- paste0(substr(flanking_region, 1, flanking_length), alternate_seq, substr(flanking_region, flanking_length + 2, 2 * flanking_length + 1))
+  # Store the modified region in the vector
+  alternate_regions[i] <- modified_region
+}
+alt_seq<-as.data.frame(alternate_regions)
+View(ref_seq)
+View(alt_seq)
+
+# Write the data frame to an Excel file
+write_xlsx(ref_seq, path = "D:/wetlab/sequencing result of ecoli passage/result_complete_samples/ref_flank_filtered.xlsx")
+write_xlsx(alt_seq, path = "D:/wetlab/sequencing result of ecoli passage/result_complete_samples/alt_flank_filtered.xlsx")
+
+#write_xlsx(ref_seq, path = "D:/wetlab/sequencing result of ecoli passage/result_complete_samples/ref_flank_unfiltered.xlsx")
+#write_xlsx(alt_seq, path = "D:/wetlab/sequencing result of ecoli passage/result_complete_samples/alt_flank_unfiltered.xlsx")
