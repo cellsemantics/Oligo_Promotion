@@ -1,3 +1,3 @@
-COVID_final_mastersheet.xlsx -> Input master data for plot generation
+COVID_final_mastersheet.xlsx -> Input master data for plot generation for all main figures
 
 lineages_count.xlsx -> Input data for pie chart generation in Fig 5b.
