@@ -31,7 +31,7 @@ Here are the steps for computing the kGain score:
 
 ### 3. **Compute kGain Score:**
    - Track the occurrence of each k-mer across the reference genome.
-   - For each k-mer, calculate the fold change between the genomic frequencies of the k-mers containing the alternate allele (F_(i(v))^alt) and the reference allele (F_(i(v))^Ref).
+   - For each k-mer, calculate the fold change between the genomic frequencies of the k-mers containing the alternate allele (F(i(v))^alt) and the reference allele (F(i(v))^Ref).
    - Compute the kGain score for each variant (kGain_v) by summing the natural logarithm of the fold changes for each k-mer across all windows.
 
 The kGain score is mathematically represented as:
