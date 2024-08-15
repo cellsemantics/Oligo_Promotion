@@ -1,5 +1,5 @@
 # Selective promotion of oligonucleotides in the course of evolution 
-This repository offers a collection of resources, tools, and command-line utilities created for the research paper titled "**Selective promotion of oligonucleotides in the course of evolution**" by Bernadette Mathew, Abhishek Halder, Nancy Jaiswal, Smruti Panda, Debjit Pramanik, Sreeram Chandra Murthy Peela, Abhishek Garg, Sadhana Tripathi,Prashant Gupta, Vandana Malhotra, Gaurav Ahuja, Debarka Sengupta.
+This repository offers a collection of resources, tools, and scripts created for the research paper titled "**Selective promotion of oligonucleotides in the course of evolution**" by Bernadette Mathew, Abhishek Halder, Nancy Jaiswal, Smruti Panda, Debjit Pramanik, Sreeram Chandra Murthy Peela, Abhishek Garg, Sadhana Tripathi,Prashant Gupta, Vandana Malhotra, Gaurav Ahuja, Debarka Sengupta.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
