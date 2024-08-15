@@ -25,13 +25,13 @@ Here are the steps for computing the kGain score:
    - The left and right flanking regions are taken from the corresponding reference genome, depending on the organism.
 
 ### 2. **Generate k-mers Using Rolling Windows:**
-   - For each variant, generate a total of k (k = 10) rolling windows, where each window contains either the reference or alternate allele.
+   - For each variant, generate a total of **k** (k = 10) rolling windows, where each window contains either the reference or alternate allele.
    - Apply the rolling window method twice: once for the reference sequence and once for the sequence with the variant.
    - This results in sets of k-mers for each variant, with each k-mer containing the position of the variant.
 
 ### 3. **Compute kGain Score:**
    - Track the occurrence of each k-mer across the reference genome.
-   - For each k-mer, calculate the fold change between the genomic frequencies of the k-mers containing the alternate allele (F(i(v))^alt) and the reference allele (F(i(v))^Ref).
+   - For each k-mer, calculate the fold change between the genomic frequencies of the k-mers containing the alternate allele (F^alt(i(v))) and the reference allele (F^Ref(i(v))).
    - Compute the kGain score for each variant (kGain_v) by summing the natural logarithm of the fold changes for each k-mer across all windows.
 
 The kGain score is mathematically represented as:
