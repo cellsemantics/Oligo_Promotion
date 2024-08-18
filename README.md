@@ -6,7 +6,7 @@ This repository offers a collection of resources, tools, and scripts created for
 **Contents :** 
 
 1. Environment setup: The environment1.yml file is for Python environment generation
-2. score_generation : Folder named " score_generation" contains the scripts for generating two scores essential for this analysis .i.e., the kGain and the LLR scores 
+2. Score generations : Folder named " score_generation" contains the scripts for generating two scores essential for this analysis .i.e., the kGain and the LLR scores 
 3. Figures: The "figure" folder contains the scripts and data associated with the figures presented in the manuscript and supplementary materials.
 
 ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
