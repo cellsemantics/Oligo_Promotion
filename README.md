@@ -55,7 +55,7 @@ Where:
 | Category | Parameter | Value |
 |---|---|---|
 | **Input Representation** | Sequence length | 19 nucleotides (2k−1, k=10) |
-| | Input encoding | One-hot (A, C, G, T) |
+| | Input encoding | Dual encoded one-hot (A, C, G, T) |
 | | Input dimension | 4 channels |
 | **Model Architecture** | Embedding dimension | 32 |
 | | Positional encoding | Learned (trainable embedding) |
