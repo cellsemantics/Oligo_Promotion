@@ -48,3 +48,32 @@ Where:
 - _**k**_ is the total number of k-mers generated using the rolling window method.
 
 
+
+
+Attention-Based Regression Model ? Architecture & Training
+Category	Parameter	Value
+Input Representation	Sequence length	19 nucleotides (2k?1, k=10)
+Input encoding	One-hot (A, C, G, T)
+Input dimension	4 channels
+Model Architecture	Embedding dimension	32
+Positional encoding	Learned (trainable embedding)
+Transformer layers	2
+Attention heads	4
+Key/query/value dim per head	32 (= embedding dim)
+Feed-forward hidden dimension	32
+Feed-forward activation	ReLU
+Pooling	Global average pooling
+Output activation	Linear (single neuron)
+Dropout rate	0.1
+Weight initialization	Glorot uniform
+Training	Optimizer	Adam
+Learning rate	0.01
+Loss function	Focal regression loss (? = 2)
+Batch size	8,192
+Epochs	500
+Train / Validation split	80% / 20%
+Random seed	19
+Hyperparameter Selection	Method	Iterative manual adjustment
+Criterion	Validation loss minimization
+Test set	Held-out (n = 6,879), reserved for final evaluation only
+Weights saved in attn_regressor_focal.weights.h5. Model config in model_config.json.
