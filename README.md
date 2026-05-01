@@ -61,7 +61,6 @@ Where:
 | | Positional encoding | Learned (trainable embedding) |
 | | Transformer layers | 2 |
 | | Attention heads | 4 |
-| | Key/query/value dim per head | 32 (= embedding dim) |
 | | Feed-forward hidden dimension | 32 |
 | | Feed-forward activation | ReLU |
 | | Pooling | Global average pooling |
