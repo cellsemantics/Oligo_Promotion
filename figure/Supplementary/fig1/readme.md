@@ -1,4 +1,3 @@
-
 # Supplementary Figure 1 Notebooks
 
 Notebook files: `fig1_1a_1b_1c_1d.ipynb`, `fig1_1e_1f.ipynb`, `fig1h.ipynb`, `fig1gi.ipynb`
