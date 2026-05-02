@@ -77,7 +77,6 @@ Mutator grouping:
   - `mutator_AG_heatmap_independent.pdf`
   - `non_mutator_AG_heatmap_independent.pdf`
 
-- `fig4ab.ipynb` has `savefig(...)` lines for Fig. `4a` and Fig. `4b`, currently commented.
 
 ## Dependencies
 
