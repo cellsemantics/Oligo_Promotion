@@ -78,5 +78,4 @@ Saved by default in current notebook state:
 
 ## Notes
 
-- The notebook filename is `fig6bc.ipynb` (not `fig6.ipynb`).
 - Population labels are derived from VCF source names and then collapsed to `D`, `R1`, and `R3`.
