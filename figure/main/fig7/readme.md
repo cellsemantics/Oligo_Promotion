@@ -105,5 +105,4 @@ Saved by default in current notebook state:
 
 ## Notes
 
-- There is no single `fig7.ipynb`; Figure 7 is split across multiple notebooks.
 - `fig7a.ipynb` markdown contains a legacy label (`Fig. 6a`) but the file is part of the Figure 7 workflow.
