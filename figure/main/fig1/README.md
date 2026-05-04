@@ -81,4 +81,3 @@ Expected under `data/`:
 ## Notes
 
 - Project root is discovered dynamically by walking up to `utility.py`.
-- `fig1f.ipynb` currently does not lock a shuffle seed, so exact control visualization can vary slightly between runs.
